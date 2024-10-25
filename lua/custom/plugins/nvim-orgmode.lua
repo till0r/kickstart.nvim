@@ -5,8 +5,8 @@ return {
   config = function()
     -- Setup orgmode
     require('orgmode').setup {
-      org_agenda_files = '~/orgfiles/**/*',
-      org_default_notes_file = '~/orgfiles/refile.org',
+      org_agenda_files = '~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/*.org',
+      org_default_notes_file = '~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/inbox.org',
       org_todo_keywords = { 'TODO', 'WAITING', '|', 'DONE' },
       org_capture_templates = {
         t = {
