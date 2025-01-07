@@ -69,6 +69,9 @@ return {
       },
     }
 
+    require('dap-python').setup '.venv/bin/python3'
+    require('dap-python').test_runner = 'pytest'
+
     -- Dap UI setup
     -- For more information, see |:help nvim-dap-ui|
     dapui.setup {
