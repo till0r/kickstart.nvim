@@ -110,13 +110,31 @@ vim.opt.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
--- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
+-- Enable OSC-52 integration
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy '+',
+    ['*'] = require('vim.ui.clipboard.osc52').copy '*',
+  },
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste '+',
+    ['*'] = require('vim.ui.clipboard.osc52').paste '*',
+  },
+}
+
+-- Disable automatic clipboard integration
+vim.opt.clipboard = 'unnamedplus'
+
+-- Key mappings to explicitly use the system clipboard
+-- TODO: Add whichkey
+-- Yank to the system clipboard
+-- vim.api.nvim_set_keymap('n', '<leader>y', '"+y', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('v', '<leader>y', '"+y', { noremap = true, silent = true })
+
+-- Paste from the system clipboard
+-- vim.api.nvim_set_keymap('n', '<leader>p', '"+p', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('v', '<leader>p', '"+p', { noremap = true, silent = true })
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -837,23 +855,18 @@ require('lazy').setup({
       }
     end,
   },
-
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'yorickpeterse/vim-paper',
-    priority = 1000000, -- Make sure to load this before all the other start plugins.
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    priority = 1000000,
     init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'paper'
-
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
+      vim.cmd.colorscheme 'catppuccin-latte'
     end,
+  },
+
+  {
+    'yorickpeterse/vim-paper',
+    priority = 1000,
   },
 
   -- Highlight todo, notes, etc in comments
