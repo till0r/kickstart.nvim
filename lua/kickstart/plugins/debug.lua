@@ -84,5 +84,28 @@ return {
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+    -- We'll store the original window and buffer in these variables
+    local original_window
+    local original_buffer
+
+    -- When a debug session is initialized, capture the current window and buffer
+    dap.listeners.after.event_initialized['restore_buf'] = function()
+      original_window = vim.api.nvim_get_current_win()
+      original_buffer = vim.api.nvim_get_current_buf()
+    end
+
+    -- When the debug session ends, jump back to that original window/buffer
+    dap.listeners.before.event_terminated['restore_buf'] = function()
+      if original_window and vim.api.nvim_win_is_valid(original_window) then
+        vim.api.nvim_set_current_win(original_window)
+      end
+      if original_buffer and vim.api.nvim_buf_is_valid(original_buffer) then
+        vim.api.nvim_set_current_buf(original_buffer)
+      end
+    end
+
+    -- The `event_exited` event also occurs when a session ends, so do the same there
+    dap.listeners.before.event_exited['restore_buf'] = dap.listeners.before.event_terminated['restore_buf']
   end,
 }
