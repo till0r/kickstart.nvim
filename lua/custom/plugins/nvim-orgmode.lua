@@ -13,19 +13,22 @@ return {
           description = 'Thoughts',
           template = '%?',
           datetree = {
-            treetype = 'month',
+            tree_type = 'day',
             reversed = true,
           },
           target = '~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/thoughts.org',
         },
+        w = {
+          description = 'Weekend',
+          template = '* TODO %?\n\n',
+          target = '~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/weekend.org',
+        },
+      },
+      ui = {
+        folds = {
+          colored = true,
+        },
       },
     }
-
-    -- NOTE: If you are using nvim-treesitter with ~ensure_installed = "all"~ option
-    -- add ~org~ to ignore_install
-    -- require('nvim-treesitter.configs').setup({
-    --   ensure_installed = 'all',
-    --   ignore_install = { 'org' },
-    -- })
   end,
 }
