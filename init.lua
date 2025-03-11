@@ -110,31 +110,8 @@ vim.opt.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
--- Enable OSC-52 integration
-vim.g.clipboard = {
-  name = 'OSC 52',
-  copy = {
-    ['+'] = require('vim.ui.clipboard.osc52').copy '+',
-    ['*'] = require('vim.ui.clipboard.osc52').copy '*',
-  },
-  paste = {
-    ['+'] = require('vim.ui.clipboard.osc52').paste '+',
-    ['*'] = require('vim.ui.clipboard.osc52').paste '*',
-  },
-}
-
--- Disable automatic clipboard integration
+-- Enable automatic clipboard integration
 vim.opt.clipboard = 'unnamedplus'
-
--- Key mappings to explicitly use the system clipboard
--- TODO: Add whichkey
--- Yank to the system clipboard
--- vim.api.nvim_set_keymap('n', '<leader>y', '"+y', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('v', '<leader>y', '"+y', { noremap = true, silent = true })
-
--- Paste from the system clipboard
--- vim.api.nvim_set_keymap('n', '<leader>p', '"+p', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('v', '<leader>p', '"+p', { noremap = true, silent = true })
 
 -- Enable break indent
 vim.opt.breakindent = true
