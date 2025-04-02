@@ -8,6 +8,7 @@ return {
       org_agenda_files = '~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/*.org',
       org_default_notes_file = '~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/inbox.org',
       org_todo_keywords = { 'TODO', 'WAITING', '|', 'DONE' },
+      org_adapt_indentation = false,
       org_capture_templates = {
         t = {
           description = 'Thoughts',
