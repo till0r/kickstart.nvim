@@ -152,6 +152,27 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
+-- instead raise a dialog asking if you wish to save the current file(s)
+-- See `:help 'confirm'`
+vim.opt.confirm = true
+
+-- Autosave on InsertLeave or TextChanged
+vim.api.nvim_create_autocmd({ 'InsertLeave', 'TextChanged' }, {
+  pattern = '*',
+  callback = function()
+    if vim.bo.modified and vim.bo.filetype ~= '' and vim.fn.expand '%' ~= '' then
+      vim.cmd 'silent! write'
+    end
+  end,
+})
+
+-- Autoread changes
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold' }, {
+  command = 'checktime',
+})
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -592,6 +613,8 @@ require('lazy').setup({
           diagnostic_signs[vim.diagnostic.severity[type]] = icon
         end
         vim.diagnostic.config { signs = { text = diagnostic_signs } }
+        -- Virtual lines
+        vim.diagnostic.config { virtual_text = true }
       end
 
       -- LSP servers and clients are able to communicate to each other what features they support.
